@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTTP POST Example</title>
+</head>
+<body>
+
+  <form id="asset">
+    <label for="data">Create asset:</label><br>
+    <input type="text" id="name" name="name"><br><br>
+    <input type="submit" value="Submit" onclick="postData(event)">
+  </form>
+
+  <script>
+    function postData(event) {
+      event.preventDefault(); // Prevent the default form submission
+      
+      // Get the data from the form
+      const formData = new FormData(document.getElementById('asset'));
+      const mapData = {}
+
+      formData.forEach((value, key) => mapData[key] = value)
+      const json = JSON.stringify(mapData)
+      console.log(json)
+      
+      // Make a POST request using fetch API
+      fetch('http://spvbp-isvs.local/svc/asset', {
+        method: 'POST',
+        body: json,
+        headers : {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const location = response.headers.get('Location')
+        if(location) {
+          fetch(location)
+            .then(newResponse => {})
+            .catch(error => console.error('Error fetching redirected URL:', error))
+        }
+        return response.json();
+      })
+        .then(data =>  console.log('Successfully created asset: ', data))
+        .catch(error => console.error('There was a problem with the POST request:', error));
+    }
+  </script>
+
+</body>
+</html>
+
