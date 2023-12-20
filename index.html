@@ -1,53 +1,48 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>HTTP POST Example</title>
-</head>
-<body>
+<html lang="sk">
+  <head>
+    <meta charset="UTF-8">
+    <title>HTTP POST Example</title>
+    <script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
 
-  <form id="asset">
-    <label for="data">Create asset:</label><br>
-    <input type="text" id="name" name="name"><br><br>
-    <input type="submit" value="Submit" onclick="postData(event)">
-  </form>
-
-  <script>
-    function postData(event) {
-      event.preventDefault(); // Prevent the default form submission
-      
-      // Get the data from the form
-      const formData = new FormData(document.getElementById('asset'));
-      const mapData = {}
-
-      formData.forEach((value, key) => mapData[key] = value)
-      const json = JSON.stringify(mapData)
-      console.log(json)
-      
-      // Make a POST request using fetch API
-      fetch('http://spvbp-isvs.local/svc/asset', {
-        method: 'POST',
-        body: json,
-        headers : {
-          'Content-Type': 'application/json'
+  </head>
+  <body>
+    <form hx-post="http://spvbp-isvs.local/svc/asset" hx-ext="json-enc">
+      <label for="name">Asset name:</label>
+      <input type="text" id="name" name="name"><br>
+      <button type="submit"> Create asset </button>
+    </form>
+    <hr>
+    <form hx-post="http://spvbp-isvs.local/svc/role" hx-ext="json-enc" hx-swap="none">
+      <label for="name">Role name:</label>
+      <input type="text" id="name" name="name"><br>
+      <input type="submit" value="Create role">
+    </form>
+    <hr>
+    <form hx-post="http://spvbp-isvs.local/svc/human" hx-ext="json-enc" hx-swap="none">
+      <label for="firstName">First name:</label>
+      <input type="text" id="firstName" name="firstName"><br>
+      <label for="lastName">Last name:</label>
+      <input type="text" id="lastName" name="lastName"><br><br>
+      <input type="submit" value="Create human">
+    </form>
+    <hr>
+    <form hx-post="http://spvbp-isvs.local/svc/human/bind/role" hx-swap="none">
+      <label for="humanId">Human ID:</label>
+      <input type="text" id="humanId" name="humanId"><br>
+      <label for="lastName">Role ID</label>
+      <input type="text" id="roleId" name="roleId"><br><br>
+      <input type="submit" value="Create human">
+    </form>
+    <script>
+      document.body.addEventListener('htmx:afterRequest', evt => {
+        alert(evt.detail.xhr.responseText)
+        if(evt.detail.successful) {
+          window.location.reload()
         }
       })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const location = response.headers.get('Location')
-        if(location) {
-          fetch(location)
-            .then(newResponse => {})
-            .catch(error => console.error('Error fetching redirected URL:', error))
-        }
-        return response.json();
-      })
-        .then(data =>  console.log('Successfully created asset: ', data))
-        .catch(error => console.error('There was a problem with the POST request:', error));
-    }
-  </script>
-
-</body>
+    </script>
+  </body>
 </html>
 
