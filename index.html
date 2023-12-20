@@ -3,46 +3,14 @@
   <head>
     <meta charset="UTF-8">
     <title>HTTP POST Example</title>
-    <script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+    <script src="init-navbar.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
   </head>
+
   <body>
-    <form hx-post="http://spvbp-isvs.local/svc/asset" hx-ext="json-enc">
-      <label for="name">Asset name:</label>
-      <input type="text" id="name" name="name"><br>
-      <button type="submit"> Create asset </button>
-    </form>
-    <hr>
-    <form hx-post="http://spvbp-isvs.local/svc/role" hx-ext="json-enc" hx-swap="none">
-      <label for="name">Role name:</label>
-      <input type="text" id="name" name="name"><br>
-      <input type="submit" value="Create role">
-    </form>
-    <hr>
-    <form hx-post="http://spvbp-isvs.local/svc/human" hx-ext="json-enc" hx-swap="none">
-      <label for="firstName">First name:</label>
-      <input type="text" id="firstName" name="firstName"><br>
-      <label for="lastName">Last name:</label>
-      <input type="text" id="lastName" name="lastName"><br><br>
-      <input type="submit" value="Create human">
-    </form>
-    <hr>
-    <form hx-post="http://spvbp-isvs.local/svc/human/bind/role" hx-swap="none">
-      <label for="humanId">Human ID:</label>
-      <input type="text" id="humanId" name="humanId"><br>
-      <label for="lastName">Role ID</label>
-      <input type="text" id="roleId" name="roleId"><br><br>
-      <input type="submit" value="Create human">
-    </form>
-    <script>
-      document.body.addEventListener('htmx:afterRequest', evt => {
-        alert(evt.detail.xhr.responseText)
-        if(evt.detail.successful) {
-          window.location.reload()
-        }
-      })
-    </script>
+
   </body>
 </html>
 
