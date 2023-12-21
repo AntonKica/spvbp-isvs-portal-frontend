@@ -31,7 +31,9 @@
     <table class="table">
       <thead>
         <tr>
+          <!--why scope?-->
           <th scope="col">Priradene role</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody id="roleRows">
@@ -56,7 +58,12 @@
         document.getElementById("lastName").innerHTML = data.lastName
       }
       function setRoleInfo(data) {
-        const rows = data.roles.map(role => `<tr><td>${role.name}</td></tr>`).join("")
+        const rows = data.roles.map(role => `
+          <tr>
+          <td>${role.name}</td>
+          <td> <button type="button" class="btn btn-danger" onclick="unbindRole(event, ${role.id})">remove</button></td>
+          </tr>
+          `).join("")
         document.getElementById("roleRows").innerHTML = rows
       }
       function setBindInfo(data) {
@@ -85,7 +92,7 @@
           })
       }
 
-      function bindRole(event) {
+      async function bindRole(event) {
         event.preventDefault()
 
         const bindRoleForm = document.getElementById('bindRole')
@@ -94,7 +101,24 @@
         const humanId = getHumanId()
         const roleId = formData.get("roleId")
 
-        fetch(`http://spvbp-isvs.local/svc/human/${humanId}/bind/role/${roleId}`, { method: "POST"})
+        const res = await fetch(`http://spvbp-isvs.local/svc/human/${humanId}/bind/role/${roleId}`, { method: "POST"})
+        const text = await res.text()
+        alert(text)
+        if(res.ok) {
+          window.location.reload()
+        }
+      }
+      async function unbindRole(event, roleId) {
+        event.preventDefault()
+
+        const humanId = getHumanId()
+
+        const res = await fetch(`http://spvbp-isvs.local/svc/human/${humanId}/unbind/role/${roleId}`, { method: "POST"})
+        const text = await res.text()
+        alert(text)
+        if(res.ok) {
+          window.location.reload()
+        }
       }
     </script>
   </body>

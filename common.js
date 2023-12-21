@@ -58,6 +58,7 @@ function listHumans() {
         <th> First name</th>
         <th> Last name</th>
         <th> Roles </th>
+        <th> </th>
         </tr>
         `
 
@@ -67,11 +68,12 @@ function listHumans() {
           roles = entity.roles.map(role => role.name + ';')
         }
         str += `
-          <tr>
+          <tr class="clickable-row" data-href="idk">
           <td> ${entity.id} </td>
           <td> ${entity.firstName} </td>
           <td> ${entity.lastName} </td>
           <td> ${roles} </td>
+          <td> <a href="/view-human.html?humanId=${entity.id}"> view </a></td>
           </tr>`
       })
       str += `</table>`
