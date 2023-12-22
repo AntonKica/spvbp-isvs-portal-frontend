@@ -11,7 +11,7 @@
   </head>
 
   <body onLoad="listRoles()">
-    <form hx-post="http://spvbp-isvs.local/svc/role" hx-ext="json-enc" hx-swap="none">
+    <form hx-post="/svc/role" hx-ext="json-enc" hx-swap="none">
       <label for="name" class="form-label">Role name:</label>
       <input type="text" class="form-control id="name" name="name"><br>
       <input type="submit" class="btn btn-primary" value="Create role">

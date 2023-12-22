@@ -50,7 +50,6 @@
     <script>
       function getHumanId() {
         return (new URL(document.location)).searchParams.get("humanId")
-
       }
 
       function setHumanInfo(data) {
@@ -70,7 +69,7 @@
         const roleIds = data.roles.map(role => role.id)
         console.log(roleIds)
 
-        fetch('http://spvbp-isvs.local/svc/role/list')
+        fetch('/svc/role/list')
           .then(response => response.json())
           .then(roles => roles.filter(role => !roleIds.includes(role.id)))
           .then(roles => roles.map(role => `<option value="${role.id}">${role.name}</option>`))
@@ -79,7 +78,7 @@
       function loadHuman() {
         const humanId = getHumanId()
 
-        fetch(`http://spvbp-isvs.local/svc/human/${humanId}`)
+        fetch(`/svc/human/${humanId}`)
           .then(response => response.json()) // Parse the JSON response
           .then(data => {
             setHumanInfo(data)
@@ -101,7 +100,7 @@
         const humanId = getHumanId()
         const roleId = formData.get("roleId")
 
-        const res = await fetch(`http://spvbp-isvs.local/svc/human/${humanId}/bind/role/${roleId}`, { method: "POST"})
+        const res = await fetch(`/svc/human/${humanId}/bind/role/${roleId}`, { method: "POST"})
         const text = await res.text()
         alert(text)
         if(res.ok) {
@@ -113,7 +112,7 @@
 
         const humanId = getHumanId()
 
-        const res = await fetch(`http://spvbp-isvs.local/svc/human/${humanId}/unbind/role/${roleId}`, { method: "POST"})
+        const res = await fetch(`/svc/human/${humanId}/unbind/role/${roleId}`, { method: "POST"})
         const text = await res.text()
         alert(text)
         if(res.ok) {

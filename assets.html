@@ -13,7 +13,7 @@
   </head>
 
   <body onload="listAssets()">
-    <form hx-post="http://spvbp-isvs.local/svc/asset" hx-ext="json-enc">
+    <form hx-post="/svc/asset" hx-ext="json-enc">
       <label for="name" class="form-label">Asset name:</label>
       <input type="text" class="form-control" id="name" name="name"><br>
       <button type="submit" class="btn btn-primary"> Create asset </button>

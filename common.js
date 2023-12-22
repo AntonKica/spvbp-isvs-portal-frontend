@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   navbar.innerHTML= `
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">spvbp-isvs</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -48,7 +48,7 @@ document.addEventListener('htmx:afterRequest', evt => {
 })
 
 function listHumans() {
-  fetch('http://spvbp-isvs.local/svc/human/list')
+  fetch('/svc/human/list')
     .then(response => response.json()) // Parse the JSON response
     .then(data => {
       var str = `<table class="table">
@@ -86,7 +86,7 @@ function listHumans() {
     })
 }
 function listAssets() {
-fetch('http://spvbp-isvs.local/svc/asset/list')
+fetch('/svc/asset/list')
   .then(response => response.json()) // Parse the JSON response
   .then(data => {
     var str = `<table class="table">
@@ -115,7 +115,7 @@ fetch('http://spvbp-isvs.local/svc/asset/list')
 }
 
 function listRoles() {
-  fetch('http://spvbp-isvs.local/svc/role/list')
+  fetch('/svc/role/list')
     .then(response => response.json()) // Parse the JSON response
     .then(data => {
       var str = `<table class="table">

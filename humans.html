@@ -13,7 +13,7 @@
   </head>
 
   <body onLoad="listHumans()">
-    <form hx-post="http://spvbp-isvs.local/svc/human" hx-ext="json-enc" hx-swap="none">
+    <form hx-post="/svc/human" hx-ext="json-enc" hx-swap="none">
       <label for="firstName" class="form-label">First name:</label>
       <input type="text" class="form-control id="firstName" name="firstName"><br>
       <label for="lastName">Last name:</label>
