@@ -20,8 +20,8 @@
 
   let humanId: number;
   async function bindISO() {
-    // TODO HARDCODED VALUE 1
     // clear bound roles
+    // TODO HARDCODED VALUE 1
     await fetch(`/svc/role/1/clear`, { method: "POST" });
     const res = await fetch(`/svc/human/${humanId}/bind/role/1`, {
       method: "POST",
@@ -46,13 +46,13 @@
   }
 </script>
 
-<title>Iniciácia ISMS</title>
+<title>Podklady pre ISMS</title>
 <div class="row justify-content-md-center">
-  <div class="col-10">
-    <h1 class="display-1">Iniciácia ISMS</h1>
+  <div class="col-8">
+    <h1 class="display-1">Podklady pre ISMS</h1>
     <div class="row">
       <h4>
-        <span class="text-primary"> Prečítaj si viac <span> </span></span>
+        <span class="text-info"> Prečítaj si viac </span>
       </h4>
       <div class="col-4">
         <table class="table">
@@ -64,8 +64,8 @@
           </thead>
           <tbody>
             <tr>
-              <td>IT-Grundschutz-Compendium</td>
-              <td>ISMS.1 Security Management</td>
+              <td> IT-Grundschutz-Compendium </td>
+              <td> ISMS.1 Security Management </td>
             </tr>
             <tr>
               <td> BSI-Standard 200-2 IT-Grundschutz Methodology </td>
@@ -75,57 +75,93 @@
         </table>
       </div>
     </div>
-    <h2>Prvé kroky</h2>
-    <div class="alert alert-warning" role="alert">
-      <h2>! Bez podpory manažmentu to nejde !</h2>
-      Bezpečnostný proces nemôže spustiť nikto iný ako CEO/vedenie. Je nutné aby
-      vrchný manažment prevzal zodpovednosť za informačnú bezpečnosť.
-    </div>
-
+    <br />
+    <br />
+    <h2>Prijatie celkovej zodpovednosti za KIB vedením organizácie</h2>
+    <ul class="list-group">
+      <li class="list-group-item">
+        Vedenie organizácie MUSÍ prijať celkovú zodpovednosť za kybernetickú a
+        informačnú bezpečnosť v organizácií a to takým spôsobom, aby to bolo
+        jasné všetkým zainteresovaným stranám.
+      </li>
+      <li class="list-group-item">
+        Vedenie organizácie MUSÍ iniciovať, riadiť a monitorovať bezpečnostný
+        proces.
+      </li>
+      <li class="list-group-item">
+        Vedenie organizácie MUSÍ byť dobrým príkladom pri dodržiavaní
+        požiadaviek (neskôr opatrení) KIB.
+      </li>
+      <li class="list-group-item">
+        Vedenie organizácie MUSÍ vymenovať zamestnancov zodpovedných za KIB,
+        poskytnúť im potrebné oprávnenia a zdroje.
+      </li>
+      <li class="list-group-item">
+        Vedenie organizácie MUSÍ pravidelne dostávať informácie o stave KIB v
+        organizácií, najmä informácie o stave KIB v organizácií, možných
+        rizikách vyplývajúcich z chýbajúcich alebo nedostatočných bezpečnostných
+        opatrení.
+      </li>
+    </ul>
+    <br />
+    <h2>Akčne kroky</h2>
+    <ol class="list-group list-group-numbered">
+      <li class="list-group-item">
+        Vedenie organizácie prevezme plnú zodpovednosti za KIB
+      </li>
+      <li class="list-group-item">
+        Vedenie organizácie iniciuje KIB v organizácií.
+      </li>
+      <li class="list-group-item">
+        Vedenie organizácie vymenuje manažéra KIB.
+      </li>
+      <li class="list-group-item">
+        Vedenie organizácie je v regulárnych intervaloch informované ohľadom
+        prípadných rizík a dôsledkov nedostatku KIB.
+      </li>
+    </ol>
+    <br />
+    <hr />
     {#if iso}
       {#if iso.humans.length > 0}
-        <h3 class="alert alert-success" role="alert">
-          ISO je: {iso.humans[0].firstName}
-          {iso.humans[0].lastName}
+        <h3 class="alert bg-success text-white" role="alert">
+          <span>
+            Manažér KIB je: {iso.humans[0].firstName}
+            {iso.humans[0].lastName}
+          </span>
         </h3>
       {:else}
-        <h3 class="alert alert-danger" role="alert">
-          Rola ISO nie je obsadená
+        <h3 class="alert bg-danger text-white" role="alert">
+          Rola manažéra KIB nie je obsadená
         </h3>
       {/if}
-    {:else}
-      <p>Loading</p>
     {/if}
 
-    <h4>Priraď rolu ISO</h4>
-    <form on:submit|preventDefault={bindISO}>
-      <div class="row">
-        <div class="col-3">
+    <div class="row">
+      <div class="col">
+        <h4>Nastav rolu manažéra KIB</h4>
+        <form on:submit|preventDefault={bindISO}>
+          <label for="firstName" class="form-label">Vyber osobu</label>
           <select class="form-select" bind:value={humanId}>
-            <option value="" disabled selected>Zvoľ si osobu</option>
             {#if humanList}
               {#each humanList as human}
                 <option value={human.id}
                   >{human.firstName} {human.lastName}
-                </option>,
+                </option>
               {/each}
             {/if}
           </select>
-        </div>
-        <div class="col">
+          <br />
           <input
             type="submit"
             class="btn btn-primary"
-            value="Nastav rolu ISO"
+            value="Nastav manažéra KIB"
           />
-        </div>
+        </form>
       </div>
-    </form>
-    <hr />
-    <h4>Vytvor nového človeka</h4>
-    <form on:submit|preventDefault={createHuman}>
-      <div class="row">
-        <div class="col-4">
+      <div class="col">
+        <h4>Alebo ešte pridaj nového človeka</h4>
+        <form on:submit|preventDefault={createHuman}>
           <label for="firstName" class="form-label">Meno</label>
           <input
             type="text"
@@ -133,8 +169,6 @@
             id="firstName"
             bind:value={firstName}
           />
-        </div>
-        <div class="col-4">
           <label for="lastName">Priezvisko</label>
           <input
             type="text"
@@ -142,11 +176,10 @@
             id="lastName"
             bind:value={lastName}
           />
-        </div>
-        <div class="col">
-          <input type="submit" class="btn btn-primary" value="Vytvor" />
-        </div>
+          <br />
+          <input type="submit" class="btn btn-primary" value="Pridaj človeka" />
+        </form>
       </div>
-    </form>
+    </div>
   </div>
 </div>
