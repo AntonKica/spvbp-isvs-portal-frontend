@@ -1,52 +1,6 @@
 <script lang="ts">
   /** @type {import('./$types').PageServerLoad} */
   export let data: any;
-  import { onMount } from "svelte";
-
-  let iso: any;
-  async function loadISO() {
-    iso = await fetch("/svc/role/1").then((response) => response.json());
-  }
-  let humanList: any;
-  async function loadHumanList() {
-    fetch("/svc/human/list")
-      .then((response) => response.json())
-      .then((json) => (humanList = json));
-  }
-  onMount(() => {
-    loadISO();
-    loadHumanList();
-  });
-
-  let humanId: number;
-  async function bindISO() {
-    // clear bound roles
-    // TODO HARDCODED VALUE 1
-    await fetch(`/svc/role/1/clear`, { method: "POST" });
-    const res = await fetch(`/svc/human/${humanId}/bind/role/1`, {
-      method: "POST",
-    });
-    const text = await res.text();
-    alert(text);
-
-    loadISO();
-  }
-  let firstName: string;
-  let lastName: string;
-  async function createHuman() {
-    const res = await fetch("/svc/human", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstName: firstName, lastName: lastName }),
-    });
-    const text = await res.text();
-    alert(text);
-
-    loadHumanList();
-  }
-
-  let availableRoles: any = null;
-  let roleId: number;
 </script>
 
 <title>Podklady pre ISMS</title>
@@ -87,80 +41,42 @@
     Vedenie organizácie prevezme plnú zodpovednosti za KIB
   </li>
   <li class="list-group-item">Vedenie organizácie vymenuje manažéra KIB.</li>
+
+  <li class="list-group-item">
+    Vedenie organizácie bude v regulárnych intervaloch informované ohľadom
+    potenciálnych rizík a dôsledkov nedostatočných opatrení KIB.
+  </li>
 </ol>
 <br />
 <hr />
-{#if iso}
-  {#if iso.humans.length > 0}
-    <h3 class="alert bg-success text-white" role="alert">
-      <span>
-        Manažér KIB je: {iso.humans[0].firstName}
-        {iso.humans[0].lastName}
-      </span>
-    </h3>
-  {:else}
-    <h3 class="alert bg-danger text-white" role="alert">
-      Rola manažéra KIB nie je obsadená
-    </h3>
-  {/if}
-{/if}
 
-<h4>Pridaj seba do systému</h4>
-V systéme sa nachádza základna rola {data.iso.name}. V záložké 'Ľudia' sa pridaj
-do systém. záložke<a href="/role/list"> </a>
-<form on:submit|preventDefault={createHuman}>
-  <label for="firstName" class="form-label">Meno</label>
-  <input
-    type="text"
-    class="form-control"
-    id="firstName"
-    bind:value={firstName}
-  />
-  <label for="lastName">Priezvisko</label>
-  <input type="text" class="form-control" id="lastName" bind:value={lastName} />
+<h4>Pridajte seba do systému</h4>
+V systéme sa nachádza základna rola {data.isoRole.name}, videť ju možno v
+záložke 'Roles'. Cez záložku 'Ľudia' sa pridajte do systém, rozkliknite sa a
+pridajte si rolu {data.isoRole.name}.
 
-  {#if availableRoles}
-    <select class="form-select" bind:value={roleId}>
-      <option value="" disabled selected>Zvoľ si rolu</option>
-      {#if availableRoles}
-        {#each availableRoles as role}
-          <option value={role.id}>{role.name} </option>,
-        {/each}
-      {/if}
-    </select>
-  {/if}
-  <br />
-  <input type="submit" class="btn btn-primary" value="Vytvor v systéme" />
-</form>
-<div class="row">
-  <div class="col">
-    <h4>Nastav rolu manažéra KIB</h4>
-    <form on:submit|preventDefault={bindISO}>
-      <label for="firstName" class="form-label">Vyber osobu</label>
-      <select class="form-select" bind:value={humanId}>
-        {#if humanList}
-          {#each humanList as human}
-            <option value={human.id}
-              >{human.firstName} {human.lastName}
-            </option>
-          {/each}
-        {/if}
-      </select>
-      <br />
-      <input
-        type="submit"
-        class="btn btn-primary"
-        value="Nastav manažéra KIB"
-      />
-    </form>
+<hr />
+{#if data.isoHuman}
+  <div class="alert alert-success" role="alert">
+    <strong>Výborne!</strong>
+    Manažér KIB je: {data.isoHuman.firstName}
+    {data.isoHuman.lastName}
   </div>
-  <div class="col"></div>
-  <br />
-  <hr />
+{:else}
+  <div class="alert alert-danger" role="alert">
+    <strong>Počkaj!</strong>
+    Rola manažera KIB nie je nikomu priradená.
+  </div>
+{/if}
+<hr />
 
-  <h2>Nezabúdajte</h2>
-  <span>
-    V regulárnych intervaloch informovať vedenie organizácie ohľadom
-    potenciálnych rizík a dôsledkov nedostatočných opatrení KIB.
-  </span>
-</div>
+<!-- TODO move smwhr else -->
+Informujte manažment ohľadom:
+<ul>
+  <li>bezpečnostných rizík, súvisiacich účinkov a nákladov</li>
+  <li>dopad bezpečnostných incidentov na kritické procesy</li>
+  <li>bezpečnstných požiadaviek zákona</li>
+  <li>štandartných bezpečnostných opatrení, vo vašom odvetví</li>
+  <li>súčasny stav KIB v organizácií, na akej úrovní sú aktuálne opatrenia</li>
+  <li>vaše odporúćania, ako ďalej konať</li>
+</ul>

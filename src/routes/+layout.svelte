@@ -33,7 +33,7 @@
       </div>
     </nav>
   </div>
-  <div class="col">
+  <div class="col-9">
     <slot />
   </div>
 </div>

@@ -1,7 +1,6 @@
-import { PUBLIC_BACKEND_URL } from "$env/static/public";
+import { PUBLIC_BACKEND_URL as BACKEND_URL } from "$env/static/public";
 
-export function fetchJSON(relPath: string) {
-  return fetch(PUBLIC_BACKEND_URL + relPath).then((response) =>
-    response.json(),
-  );
+export async function fetchJSON(relPath: string) {
+  console.log("bip");
+  return fetch(BACKEND_URL + relPath).then((response) => response.json());
 }
