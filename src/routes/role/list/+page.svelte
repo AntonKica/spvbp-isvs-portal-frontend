@@ -24,37 +24,29 @@
   }
 </script>
 
-<body>
-  <table class="table">
-    <caption> role list </caption>
-    <tr>
-      <th> ID </th>
-      <th> role name </th>
-      <th> humans </th>
-    </tr>
-    {#if roleList}
-      {#each roleList as role}
-        <tr>
-          <td> {role.id} </td>
-          <td> {role.name} </td>
-          {#each role.humans as human}
-            <span> {human.firstName} {human.lastName}, </span>
-          {/each}
-        </tr>
-      {/each}
-    {/if}
-  </table>
-  <form on:submit|preventDefault={createRole}>
-    <label for="name" class="form-label">role name:</label>
-    <input
-      type="text"
-      class="form-control"
-      id="name"
-      bind:value={roleName}
-    /><br />
-    <button type="submit" class="btn btn-primary"> Create role </button>
-  </form>
-  <hr />
-  <script>
-  </script>
-</body>
+<table class="table">
+  <caption> role list </caption>
+  <tr>
+    <th> ID </th>
+    <th> role name </th>
+    <th> humans </th>
+  </tr>
+  {#if roleList}
+    {#each roleList as role}
+      <tr>
+        <td> {role.id} </td>
+        <td> {role.name} </td>
+        {#each role.humans as human}
+          <span> {human.firstName} {human.lastName}, </span>
+        {/each}
+      </tr>
+    {/each}
+  {/if}
+</table>
+<form on:submit|preventDefault={createRole}>
+  <label for="name" class="form-label">role name:</label>
+  <input type="text" class="form-control" id="name" bind:value={roleName} /><br
+  />
+  <button type="submit" class="btn btn-primary"> Create role </button>
+</form>
+<hr />
