@@ -1,4 +1,4 @@
-import { fetchJSON } from "$lib/server/query";
+import { fetchJSON } from "$lib/query";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {

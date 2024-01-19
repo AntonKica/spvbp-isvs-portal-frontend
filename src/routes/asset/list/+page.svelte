@@ -27,18 +27,22 @@
 <body>
   <table class="table">
     <caption> Asset list </caption>
-    <tr>
-      <th> ID </th>
-      <th> Asset name </th>
-    </tr>
-    {#if assetList}
-      {#each assetList as asset}
-        <tr>
-          <td> {asset.id} </td>
-          <td> {asset.name} </td>
-        </tr>
-      {/each}
-    {/if}
+    <thead>
+      <tr>
+        <th> ID </th>
+        <th> Asset name </th>
+      </tr>
+    </thead>
+    <tbody>
+      {#if assetList}
+        {#each assetList as asset}
+          <tr>
+            <td> {asset.id} </td>
+            <td> {asset.name} </td>
+          </tr>
+        {/each}
+      {/if}
+    </tbody>
   </table>
   <form on:submit|preventDefault={createAsset}>
     <label for="name" class="form-label">Asset name:</label>
